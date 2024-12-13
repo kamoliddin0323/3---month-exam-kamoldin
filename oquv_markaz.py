@@ -33,9 +33,8 @@ def inline_buttons():
     builder = InlineKeyboardBuilder()
     courses = get_all_course_data()
     for i in courses:
-        print(i)
         builder.row(
-            InlineKeyboardButton(text=f'{i[0]}',callback_data=f'{i[0]}'),
+            InlineKeyboardButton(text=f'{i[0]}',callback_data=f'course_{i[1]}'),
         )
 
     return builder.as_markup()
@@ -53,6 +52,18 @@ async def set_oquv_kurslar(message:Message):
         await message.answer(text='Mavjud kurslar',reply_markup=inline_buttons())
     else:
         await message.answer(text='Afsuski xozir kurslar mavjud emas')
+
+@dp.callback_query(lambda c: c.data and c.data.startswith('course_'))
+async def callback_ansert(callback_query: types.CallbackQuery, state: FSMContext):
+    data = get_count_course()
+    course_name_element = int(callback_query.data.split('_')[1])
+    course_name_index = course_name_element-1
+    if course_name_index < len(get_count_course()):
+        course_name = data[course_name_index]
+        text = (f'Kurs nomi: {course_name[1]}\nKurs narhi: {course_name[2]}\nKurs xaqida: {course_name[3]}\nO`qituvchi: {course_name[4]}')
+        await callback_query.message.answer(text=text)
+    else:
+        await callback_query.message.answer(text='Kurs topilmadi')
 
 @dp.message(F.text =='Bizning afzalliklarimiz')
 async def set_bizning_afzalliklarimiz(message:Message,):
@@ -93,7 +104,7 @@ async def set_kurs_qoshish(message:Message,state:FSMContext):
         data = await state.get_data()
         inset_row_course_data(data['course_name'],data['course_price'],data['complete_information'],data['teacher'])
         await message.answer(text='Kurs muvaffaqqiyatli qoshildi')
-        print(get_all_course_data())
+        
    
 
 

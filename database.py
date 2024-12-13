@@ -18,8 +18,12 @@ def create_table_course_data():
     connection.commit()
 
 def get_all_course_data():
-    data = cursor.execute('SELECT course_name FROM course_data')
+    data = cursor.execute('SELECT course_name,id FROM course_data')
     return data.fetchall()
+
+def get_count_course():
+    data = cursor.execute('SELECT * FROM course_data')
+    return cursor.fetchall()
 
 
 def inset_row_course_data(course_name,course_price,complete_information,teacher):
