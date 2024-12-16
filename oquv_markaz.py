@@ -7,8 +7,13 @@ from aiogram.fsm.state import StatesGroup, State
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiogram.types import InlineKeyboardButton
 from database import *
+from dotenv import load_dotenv
+import os
 
-bot = Bot(token="7983230662:AAG2N4tMpLvPKzuD43GtgyPQ8CgVQuANMME")
+load_dotenv()
+TOKEN = os.getenv('TOKEN')
+
+bot = Bot(token=TOKEN)
 
 
 class RegisterForm(StatesGroup):
