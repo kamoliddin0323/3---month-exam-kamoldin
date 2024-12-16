@@ -12,6 +12,7 @@ import os
 
 load_dotenv()
 TOKEN = os.getenv('TOKEN')
+admin_id = os.getenv('ADMIN_ID')
 
 
 bot = Bot(token=TOKEN)
@@ -79,7 +80,7 @@ async def set_bizning_afzalliklarimiz(message:Message,):
 
 @dp.message(lambda message:message.text =='Kurs qoshish')
 async def set_kurs_qoshish(message:Message,state:FSMContext):
-    if message.from_user.id == 5425737535:  
+    if message.from_user.id == admin_id:  
         create_table_course_data()
         await message.answer(text='Kurs nomini kiriting')
         await state.set_state(RegisterForm.course_name)
