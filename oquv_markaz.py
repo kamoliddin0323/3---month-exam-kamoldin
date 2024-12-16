@@ -12,7 +12,7 @@ import os
 
 load_dotenv()
 TOKEN = os.getenv('TOKEN')
-admin_id = os.getenv('ADMIN_ID')
+admin_id = int(os.getenv('ADMIN_ID'))   
 
 
 bot = Bot(token=TOKEN)
